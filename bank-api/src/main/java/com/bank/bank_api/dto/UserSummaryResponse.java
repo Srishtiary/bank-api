@@ -1,6 +1,5 @@
 package com.bank.bank_api.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateAccountRequest {
+public class UserSummaryResponse {
 
-    @NotBlank(message = "Account type must not be blank")
-    private String accountType;
+    private Long id;
+    private String name;
+    private String email;
+    private String role;
 }
-
