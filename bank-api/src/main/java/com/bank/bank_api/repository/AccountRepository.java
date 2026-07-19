@@ -15,11 +15,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByAccountNumber(String accountNumber);
 
-    /**
-     * Fetches an Account by its account number while acquiring a pessimistic write lock.
-     * Use this method inside a @Transactional service method before performing balance
-     * modifications to prevent concurrent update anomalies.
-     */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT a FROM Account a WHERE a.accountNumber = :accountNumber")
     Optional<Account> findByAccountNumberForUpdate(@Param("accountNumber") String accountNumber);

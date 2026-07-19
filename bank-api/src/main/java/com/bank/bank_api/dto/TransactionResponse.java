@@ -20,5 +20,5 @@ public class TransactionResponse {
     private BigDecimal balanceAfter;
     private LocalDateTime timestamp;
     private String status;
-    private String message; // human-readable description e.g. "Deposit successful"
+    private String message;
 }

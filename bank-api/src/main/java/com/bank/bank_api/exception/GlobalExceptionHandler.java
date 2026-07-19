@@ -11,9 +11,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ----------------------------------------------------------------
-    // Helper: builds the standard error body {"message": "...", "status": 404}
-    // ----------------------------------------------------------------
     private Map<String, Object> buildErrorBody(String message, int statusCode) {
         Map<String, Object> body = new HashMap<>();
         body.put("message", message);

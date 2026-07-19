@@ -35,7 +35,6 @@ public class Transaction {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balanceAfter;
 
-    // The other account involved, only used for TRANSFER type
     @ManyToOne
     @JoinColumn(name = "reference_account_id")
     private Account referenceAccount;

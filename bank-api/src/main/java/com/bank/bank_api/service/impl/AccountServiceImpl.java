@@ -28,14 +28,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse createAccount(CreateAccountRequest request, String userEmail) {
-        // 1. Find the user who owns this account
+
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new AccountNotFoundException("No user found with email: " + userEmail));
 
-        // 2. Generate a unique 12-digit account number
+
         String accountNumber = generateAccountNumber();
 
-        // 3. Create the new Account entity using plain setters
         Account newAccount = new Account();
         newAccount.setAccountNumber(accountNumber);
         newAccount.setUser(user);
@@ -43,10 +42,10 @@ public class AccountServiceImpl implements AccountService {
         newAccount.setAccountType(AccountType.valueOf(request.getAccountType().toUpperCase()));
         newAccount.setStatus(AccountStatus.ACTIVE);
 
-        // 4. Save the account
+
         Account savedAccount = accountRepository.save(newAccount);
 
-        // 5. Map the saved entity to a response DTO and return it
+
         return mapToAccountResponse(savedAccount);
     }
 
@@ -58,15 +57,6 @@ public class AccountServiceImpl implements AccountService {
         return mapToAccountResponse(account);
     }
 
-    // ----------------------------------------------------------------
-    // Private helpers
-    // ----------------------------------------------------------------
-
-    /**
-     * Generates a random 12-digit numeric string.
-     * In production you would loop until a collision-free number is found;
-     * for this project the randomness is sufficient.
-     */
     private String generateAccountNumber() {
         Random random = new Random();
         StringBuilder accountNumber = new StringBuilder();
@@ -76,10 +66,6 @@ public class AccountServiceImpl implements AccountService {
         return accountNumber.toString();
     }
 
-    /**
-     * Maps an Account entity to an AccountResponse DTO.
-     * Converts enums to their String names so the caller gets plain text.
-     */
     private AccountResponse mapToAccountResponse(Account account) {
         AccountResponse response = new AccountResponse();
         response.setId(account.getId());

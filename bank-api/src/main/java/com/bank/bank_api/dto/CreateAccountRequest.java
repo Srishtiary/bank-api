@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CreateAccountRequest {
 
-    private String accountType; // "SAVINGS" or "CURRENT"
+    private String accountType;
 }

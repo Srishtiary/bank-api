@@ -7,7 +7,7 @@ import com.bank.bank_api.exception.AccountNotFoundException;
 import com.bank.bank_api.exception.UserAlreadyExistsException;
 import com.bank.bank_api.repository.UserRepository;
 import com.bank.bank_api.service.UserService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,32 +16,31 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User register(RegisterRequest request) {
-        // 1. Check if a user with this email already exists
+
         Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
         if (existingUser.isPresent()) {
             throw new UserAlreadyExistsException("A user with email " + request.getEmail() + " already exists.");
         }
 
-        // 2. Hash the plain-text password before storing it
         String hashedPassword = passwordEncoder.encode(request.getPassword());
 
-        // 3. Build the new User entity using plain setters (no @Builder)
+
         User newUser = new User();
         newUser.setName(request.getName());
         newUser.setEmail(request.getEmail());
         newUser.setPassword(hashedPassword);
-        newUser.setRole(Role.USER); // every new registration gets the USER role by default
+        newUser.setRole(Role.USER);
 
-        // 4. Save and return
+
         return userRepository.save(newUser);
     }
 
